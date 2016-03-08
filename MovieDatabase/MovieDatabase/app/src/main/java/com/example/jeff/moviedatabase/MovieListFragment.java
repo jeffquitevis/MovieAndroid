@@ -2,7 +2,6 @@ package com.example.jeff.moviedatabase;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,14 +15,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.io.BufferedReader;
-import java.net.HttpURLConnection;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +30,14 @@ import java.util.List;
  */
 public class MovieListFragment extends Fragment {
 
+
+    public interface OnTransferMovieData {
+
+        public void setMovieDetails(String originalTitle, String releaseDate, String overview, String posterPath, String backdropPath);
+    }
+
+    private List<Movie> movieArrayList = new ArrayList<Movie>();
+    private  OnTransferMovieData transferMovieData;
     private ListView movieList;
     private static final String URL_API = "http://api.themoviedb.org/3/discover/movie";
     private static final String API_KEY = "c8e968bcd558585cd3f858dda44ae89d";
@@ -47,13 +53,24 @@ public class MovieListFragment extends Fragment {
         DownloadJsonMovie downloadJsonMovie = new DownloadJsonMovie();
         downloadJsonMovie.execute(PAGE);
 
+
         return view;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
+        try {
+            transferMovieData = (OnTransferMovieData) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString());
+
+        }
     }
+
+
+
 
     public void initialize() {
         movieList = (ListView) view.findViewById(R.id.lvMovieList);
@@ -67,7 +84,7 @@ public class MovieListFragment extends Fragment {
         private HttpURLConnection urlConnection = null;
         private BufferedReader bufferedReader = null;
         private String jsonData = null;
-        private List<Movie> movieArrayList = new ArrayList<Movie>();
+
         private MovieAdapter movieAdapter;
 
         @Override
@@ -124,8 +141,7 @@ public class MovieListFragment extends Fragment {
             parseJsonData(result);
             movieAdapter = new MovieAdapter(getContext(),R.layout.listview_layout,R.id.tvMovie,movieArrayList);
             movieList.setAdapter(movieAdapter);
-
-
+           
         }
 
 
@@ -139,8 +155,6 @@ public class MovieListFragment extends Fragment {
                     JSONObject realJsonObject = jsonArray.getJSONObject(x);
                     movieArrayList.add(new Movie(realJsonObject.getString("original_title"), realJsonObject.getString("overview"), realJsonObject.getString("release_date"), realJsonObject.getString("backdrop_path"), realJsonObject.getString("poster_path")));
                 }
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
