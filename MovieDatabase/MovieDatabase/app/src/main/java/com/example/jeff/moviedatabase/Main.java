@@ -3,6 +3,8 @@ package com.example.jeff.moviedatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.List;
+
 public class Main extends AppCompatActivity implements MovieListFragment.OnTransferMovieData {
 
     @Override
@@ -13,7 +15,7 @@ public class Main extends AppCompatActivity implements MovieListFragment.OnTrans
     }
 
     @Override
-    public void setMovieDetails(String originalTitle, String releaseDate, String overview, String posterPath, String backdropPath) {
+    public void setMovieDetails(List<Movie> movieList, int position) {
 
     }
 }

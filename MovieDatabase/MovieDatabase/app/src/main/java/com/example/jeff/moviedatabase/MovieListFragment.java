@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -33,7 +34,7 @@ public class MovieListFragment extends Fragment {
 
     public interface OnTransferMovieData {
 
-        public void setMovieDetails(String originalTitle, String releaseDate, String overview, String posterPath, String backdropPath);
+        public void setMovieDetails(List<Movie> movieList, int position);
     }
 
     private List<Movie> movieArrayList = new ArrayList<Movie>();
@@ -50,9 +51,16 @@ public class MovieListFragment extends Fragment {
 
         view = inflater.inflate(R.layout.movielist_fragment_layout, container, false);
         initialize();
+
+        movieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                transferMovieData.setMovieDetails(movieArrayList,position);
+           }
+       });
+
         DownloadJsonMovie downloadJsonMovie = new DownloadJsonMovie();
         downloadJsonMovie.execute(PAGE);
-
 
         return view;
     }
@@ -74,6 +82,7 @@ public class MovieListFragment extends Fragment {
 
     public void initialize() {
         movieList = (ListView) view.findViewById(R.id.lvMovieList);
+
     }
 
 //////////////DOWNLOAD JSON MOVIE///////////////////
@@ -141,7 +150,7 @@ public class MovieListFragment extends Fragment {
             parseJsonData(result);
             movieAdapter = new MovieAdapter(getContext(),R.layout.listview_layout,R.id.tvMovie,movieArrayList);
             movieList.setAdapter(movieAdapter);
-           
+
         }
 
 
