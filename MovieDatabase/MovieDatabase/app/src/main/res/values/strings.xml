@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MovieDatabase</string>
+    <string name="test">test</string>
+    <string name="OriginalTitle">Original Title</string>
+    <string name="ReleaseDate">Release Date</string>
+    <string name="Overview">Overview</string>
 </resources>

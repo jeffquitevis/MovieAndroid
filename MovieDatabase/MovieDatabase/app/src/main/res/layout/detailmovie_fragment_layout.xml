@@ -3,12 +3,38 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/detailmovie_layout">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/OriginalTitle"
+        android:id="@+id/tvOriginalTitle"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/ReleaseDate"
+        android:id="@+id/tvReleaseDate"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvOriginalTitle"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/Overview"
+        android:id="@+id/tvOverview"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvReleaseDate"
+        android:layout_alignParentLeft="true" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp"
-        android:src="@drawable/ic_launcher" />
+        android:id="@+id/ivPoster"
+        android:layout_toEndOf="@+id/tvOriginalTitle" />
 </RelativeLayout>

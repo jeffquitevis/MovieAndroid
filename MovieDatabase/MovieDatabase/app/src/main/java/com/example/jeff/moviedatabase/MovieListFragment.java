@@ -59,8 +59,7 @@ public class MovieListFragment extends Fragment {
            }
        });
 
-        DownloadJsonMovie downloadJsonMovie = new DownloadJsonMovie();
-        downloadJsonMovie.execute(PAGE);
+        new DownloadJsonMovie().execute(PAGE);
 
         return view;
     }
@@ -147,7 +146,7 @@ public class MovieListFragment extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             parseJsonData(result);
-            movieAdapter = new MovieAdapter(getContext(),R.layout.listview_layout,R.id.tvMovie,movieArrayList);
+            movieAdapter = new MovieAdapter(getContext(),R.layout.listview_layout,R.id.tvOriginalTitle,movieArrayList);
             movieList.setAdapter(movieAdapter);
 
         }

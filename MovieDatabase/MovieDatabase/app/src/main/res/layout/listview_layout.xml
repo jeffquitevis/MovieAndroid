@@ -9,13 +9,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/tvOriginalTitle"
-        android:layout_below="@+id/tvMovie"
         android:layout_alignParentStart="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_below="@+id/tvOriginalTitle"
-        android:layout_toEndOf="@+id/tvOriginalTitle" />
 </RelativeLayout>
