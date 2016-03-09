@@ -1,13 +1,26 @@
 package com.example.jeff.moviedatabase;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class Main extends AppCompatActivity {
+import java.util.List;
+
+public class Main extends Activity implements MovieListFragment.OnTransferMovieData {
+
+    private DetailMovieFragment detailMovieFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+       detailMovieFragment = (DetailMovieFragment) getFragmentManager().findFragmentById(R.id.detailFragment);
+
+
+    }
+
+    @Override
+    public void setMovieDetails(List<Movie> movieList, int position) {
+    detailMovieFragment.setDetails(movieList[position]);
     }
 }

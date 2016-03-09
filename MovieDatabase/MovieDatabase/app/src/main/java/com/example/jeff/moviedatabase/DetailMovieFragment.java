@@ -25,4 +25,8 @@ public class DetailMovieFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
+
+    public void setDetails(String originalTitle, String releaseDate, String overview, String posterPath, String backdropPath){
+
+    }
 }

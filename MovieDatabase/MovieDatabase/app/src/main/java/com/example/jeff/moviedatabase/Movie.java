@@ -12,12 +12,13 @@ public class Movie {
     private String posterPath;
 
 
+
     public Movie(String originalTitle, String overview, String releaseDate, String backdropPath, String posterPath){
         this.originalTitle = originalTitle;
         this.overview = overview;
         this.releaseDate = releaseDate;
-        this.backdropPath = backdropPath;
-        this.posterPath = posterPath;
+        this.backdropPath = "http://image.tmdb.org/t/p/w300/" + backdropPath;
+        this.posterPath = "http://image.tmdb.org/t/p/w300/" +posterPath;
     }
 
 
