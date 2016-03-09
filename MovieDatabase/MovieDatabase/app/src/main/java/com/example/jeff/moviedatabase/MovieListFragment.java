@@ -139,7 +139,6 @@ public class MovieListFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
             return null;
         }
 
