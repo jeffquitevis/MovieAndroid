@@ -37,8 +37,7 @@ public class MovieListFragment extends Fragment {
         public void setMovieDetails(List<Movie> movieList, int position);
     }
 
-    private List<Movie> movieArrayList = new ArrayList<Movie>();
-    private  OnTransferMovieData transferMovieData;
+    private OnTransferMovieData transferMovieData;
     private ListView movieList;
     private static final String URL_API = "http://api.themoviedb.org/3/discover/movie";
     private static final String API_KEY = "c8e968bcd558585cd3f858dda44ae89d";
@@ -52,14 +51,8 @@ public class MovieListFragment extends Fragment {
         view = inflater.inflate(R.layout.movielist_fragment_layout, container, false);
         initialize();
 
-        movieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                transferMovieData.setMovieDetails(movieArrayList,position);
-           }
-       });
-
         new DownloadJsonMovie().execute(PAGE);
+
 
         return view;
     }
@@ -77,8 +70,6 @@ public class MovieListFragment extends Fragment {
     }
 
 
-
-
     public void initialize() {
         movieList = (ListView) view.findViewById(R.id.lvMovieList);
 
@@ -88,16 +79,14 @@ public class MovieListFragment extends Fragment {
 
     public class DownloadJsonMovie extends AsyncTask<Integer, Void, String> {
 
-
-        private HttpURLConnection urlConnection = null;
-        private BufferedReader bufferedReader = null;
-        private String jsonData = null;
-
         private MovieAdapter movieAdapter;
 
         @Override
         protected String doInBackground(Integer... params) {
 
+            String jsonData = null;
+            HttpURLConnection urlConnection = null;
+            BufferedReader bufferedReader = null;
 
             try {
 
@@ -145,15 +134,20 @@ public class MovieListFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            parseJsonData(result);
-            movieAdapter = new MovieAdapter(getContext(),R.layout.listview_layout,R.id.tvOriginalTitle,movieArrayList);
+            final List<Movie> tempMovieList = parseJsonData(result);
+            movieAdapter = new MovieAdapter(getContext(),R.layout.listview_layout,R.id.tvOriginalTitle,tempMovieList);
             movieList.setAdapter(movieAdapter);
+            movieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    transferMovieData.setMovieDetails(tempMovieList, position);
+                }
+            });
 
         }
 
-
-        public void parseJsonData(String result){
-
+        public List<Movie> parseJsonData(String result){
+            List<Movie> movieArrayList = new ArrayList<Movie>();
             try{
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("results");
@@ -165,6 +159,8 @@ public class MovieListFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            return  movieArrayList;
         }
     }
 }
